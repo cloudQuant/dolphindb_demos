@@ -208,7 +208,7 @@ class MyEventHandler : public EventHandler {
     }
   }
   bool processEvent(const Event& event, Session* session) override {
-    std::cout << toString(event) + "\n" << std::endl;
+    // std::cout << toString(event) + "\n" << std::endl;
     std::vector<Message> msgs = event.getMessageList();
     for (auto msg : msgs){
         // 如果是深度数据
