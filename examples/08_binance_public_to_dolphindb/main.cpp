@@ -208,7 +208,7 @@ class MyEventHandler : public EventHandler {
     }
   }
   bool processEvent(const Event& event, Session* session) override {
-    // std::cout << toString(event) + "\n" << std::endl;
+    std::cout << toString(event) + "\n" << std::endl;
     std::vector<Message> msgs = event.getMessageList();
     for (auto msg : msgs){
         // 如果是深度数据
@@ -294,9 +294,13 @@ int main(int argc, char** argv) {
       subscription_list.push_back(s2);
       subscription_list.push_back(s3);
       count++;
-      // if (count > 10){
-      //   break;
-      //   }
+      if (count > 20){
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        session.subscribe(subscription_list);
+        subscription_list.clear();
+        count = 0;
+        break;
+        }
     }
     // Subscription s3("binance-usds-futures", "btcusdt", "AGG_TRADE", "", "agg_trade");
     // Subscription s4("binance-usds-futures", "btcusdt", "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
