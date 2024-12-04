@@ -115,7 +115,7 @@ class MarketDataServiceBinanceBase : public MarketDataService {
           }else{
             exchangeSubscriptionId = symbolId+"@forceOrder";
           }
-          std::cout << "force_order exchangeSubscriptionId " << exchangeSubscriptionId << std::endl;
+          //std::cout << "force_order exchangeSubscriptionId " << exchangeSubscriptionId << std::endl;
         }
         else {
           exchangeSubscriptionId += channelId;
@@ -345,7 +345,7 @@ class MarketDataServiceBinanceBase : public MarketDataService {
 
       } else if (channelId == CCAPI_WEBSOCKET_BINANCE_BASE_CHANNEL_FORCE_ORDER) {
         // 订阅强平订单数据
-        std::cout << "begin to deal force_order data " << std::endl;
+        // std::cout << "begin to deal force_order data " << std::endl;
         // 检查 "o" 是否存在并且是一个对象
         if (data.HasMember("o") && data["o"].IsObject()) {
           const rapidjson::Value& o_dict = data["o"];
@@ -363,11 +363,12 @@ class MarketDataServiceBinanceBase : public MarketDataService {
           dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_QTY, UtilString::normalizeDecimalString(std::string(o_dict["q"].GetString()))});
           dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_PRICE, UtilString::normalizeDecimalString(std::string(o_dict["p"].GetString()))});
           dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_AVG_PRICE, UtilString::normalizeDecimalString(std::string(o_dict["ap"].GetString()))});
-          dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_STATUS, o_dict["p"].GetString()});
+          dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_STATUS, o_dict["X"].GetString()});
           dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_LAST_TRADE_QTY, UtilString::normalizeDecimalString(std::string(o_dict["l"].GetString()))});
           dataPoint.insert(
               {MarketDataMessage::DataFieldType::ORDER_CUMSUM_TRADE_QTY, UtilString::normalizeDecimalString(std::string(o_dict["z"].GetString()))});
 
+          dataPoint.insert({MarketDataMessage::DataFieldType::SYMBOL, o_dict["s"].GetString()});
           marketDataMessage.data[MarketDataMessage::DataType::FORCE_ORDER].emplace_back(std::move(dataPoint));
           marketDataMessageList.emplace_back(std::move(marketDataMessage));
           // std::cout << "force order 1 success" << std::endl;
@@ -390,12 +391,13 @@ class MarketDataServiceBinanceBase : public MarketDataService {
             dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_QTY, UtilString::normalizeDecimalString(std::string(o_dict["q"].GetString()))});
             dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_PRICE, UtilString::normalizeDecimalString(std::string(o_dict["p"].GetString()))});
             dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_AVG_PRICE, UtilString::normalizeDecimalString(std::string(o_dict["ap"].GetString()))});
-            dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_STATUS, o_dict["p"].GetString()});
+            dataPoint.insert({MarketDataMessage::DataFieldType::ORDER_STATUS, o_dict["X"].GetString()});
             dataPoint.insert(
                 {MarketDataMessage::DataFieldType::ORDER_LAST_TRADE_QTY, UtilString::normalizeDecimalString(std::string(o_dict["l"].GetString()))});
             dataPoint.insert(
                 {MarketDataMessage::DataFieldType::ORDER_CUMSUM_TRADE_QTY, UtilString::normalizeDecimalString(std::string(o_dict["z"].GetString()))});
 
+            dataPoint.insert({MarketDataMessage::DataFieldType::SYMBOL, o_dict["s"].GetString()});
             marketDataMessage.data[MarketDataMessage::DataType::FORCE_ORDER].emplace_back(std::move(dataPoint));
             marketDataMessageList.emplace_back(std::move(marketDataMessage));
           }

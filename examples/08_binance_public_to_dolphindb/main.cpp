@@ -89,11 +89,44 @@ class MyEventHandler : public EventHandler {
   }
 
   void save_binance_force_order_data(Message & msg){
-    std::string symbol_id = msg.getSymbolId();
-    std::string server_time = msg.getTimeISO();
-    std::string local_update_time = msg.getTimeReceivedISO();
-    std::cout <<"force_order " <<  symbol_id << " " << server_time << " " << local_update_time << std::endl;
+    std::string server_time_ = msg.getTimeISO();
+    std::string local_update_time_ = msg.getTimeReceivedISO();
+    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
+    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
+    std::vector<Element> elements = msg.getElementList();
     std::cout << toString(msg) << std::endl;
+    for (auto element : elements){
+      std::string symbol_id = element.getValue("symbol_id");
+      std::string _order_side = element.getValue("order_side");
+      std::string _order_type = element.getValue("order_type");
+      std::string _order_time_in_force = element.getValue("order_force");
+      std::string _trade_status = element.getValue("order_status");
+      double _order_price = std::stod(element.getValue("order_price"));
+      double _order_qty = std::stod(element.getValue("order_qty"));
+      double _order_avg_price = std::stod(element.getValue("order_avg_price"));
+      double _last_trade_qty = std::stod(element.getValue("order_last_trade_qty"));
+      double _order_cumsum_trade_qty = std::stod(element.getValue("order_cumsum_trade_qty"));
+      ConstantSP datetime = new Long(server_timestamp);
+      ConstantSP server_time = new Long(server_timestamp);
+      ConstantSP local_update_time = new Double(local_timestamp);
+      ConstantSP symbol = new String(symbol_id);
+      ConstantSP order_side = new String(_order_side);
+      ConstantSP order_type = new String(_order_type);
+      ConstantSP order_time_in_force = new String(_order_time_in_force);
+      ConstantSP trade_status = new String(_trade_status);
+      ConstantSP order_price = new Double(_order_price);
+      ConstantSP order_qty = new Double(_order_qty);
+      ConstantSP order_avg_price = new Double(_order_avg_price);
+      ConstantSP last_trade_qty = new Double(_last_trade_qty);
+      ConstantSP order_cumsum_trade_qty = new Double(_order_cumsum_trade_qty);
+      if(!force_order_writer.insert(errorInfo, datetime, server_time, local_update_time, symbol, order_side,order_type,_order_time_in_force,
+          trade_status, order_price, order_qty, order_avg_price, server_time, last_trade_qty, order_cumsum_trade_qty)){
+          std::cout << "force_order_insert fail " << errorInfo.errorInfo << std::endl;
+      }
+      update_num();
+      std::cout <<"force_order " <<  symbol_id << " " << server_timestamp << " " << local_update_time_ << std::endl;
+
+    }
   }
 
   void save_binance_mark_price_data(Message & msg){

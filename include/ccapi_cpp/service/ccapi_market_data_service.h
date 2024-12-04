@@ -1516,6 +1516,7 @@ class MarketDataService : public Service {
             auto& order_status = y.at(MarketDataMessage::DataFieldType::ORDER_STATUS);
             auto& order_last_trade_qty = y.at(MarketDataMessage::DataFieldType::ORDER_LAST_TRADE_QTY);
             auto& order_cumsum_trade_qty = y.at(MarketDataMessage::DataFieldType::ORDER_CUMSUM_TRADE_QTY);
+            auto& symbol_id = y.at(MarketDataMessage::DataFieldType::SYMBOL);
 
             Element element;
             std::string k1("order_side");
@@ -1527,6 +1528,7 @@ class MarketDataService : public Service {
             std::string k7("order_status");
             std::string k8("order_last_trade_qty");
             std::string k9("order_cumsum_trade_qty");
+            std::string k10("symbol_id");
             element.emplace(k1, order_side);
             element.emplace(k2, order_type);
             element.emplace(k3, order_force);
@@ -1536,6 +1538,7 @@ class MarketDataService : public Service {
             element.emplace(k7, order_status);
             element.emplace(k8, order_last_trade_qty);
             element.emplace(k9, order_cumsum_trade_qty);
+            element.emplace(k10, symbol_id);
             elementList.emplace_back(std::move(element));
           }
         } else {
