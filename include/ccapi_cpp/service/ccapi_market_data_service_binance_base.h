@@ -319,6 +319,7 @@ class MarketDataServiceBinanceBase : public MarketDataService {
             std::string r = UtilString::normalizeDecimalString(std::string(entry["r"].GetString()));
             dataPoint.insert({MarketDataMessage::DataFieldType::FUNDING_RATE, r});
             dataPoint.insert({MarketDataMessage::DataFieldType::NEXT_FUNDING_RATE_TIME, entry["T"].GetString()});
+            dataPoint.insert({MarketDataMessage::DataFieldType::SYMBOL, entry["s"].GetString()});
             marketDataMessage.data[MarketDataMessage::DataType::MARK_PRICE].emplace_back(std::move(dataPoint));
             marketDataMessageList.emplace_back(std::move(marketDataMessage));
           }

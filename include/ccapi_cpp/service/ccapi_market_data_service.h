@@ -1455,17 +1455,20 @@ class MarketDataService : public Service {
             auto& predicted_settlement_price = y.at(MarketDataMessage::DataFieldType::PREDICTED_SETTLEMENT_PRICE);
             auto& funding_rate = y.at(MarketDataMessage::DataFieldType::FUNDING_RATE);
             auto& next_funding_rate_time = y.at(MarketDataMessage::DataFieldType:: NEXT_FUNDING_RATE_TIME);
+            auto& symbol_id = y.at(MarketDataMessage::DataFieldType::SYMBOL);
             Element element;
             std::string k1("mark_price");
             std::string k2("spot_index_price");
             std::string k3("predicted_settlement_price");
             std::string k4("funding_rate");
             std::string k5("next_funding_rate_time");
+            std::string k6("symbol_id");
             element.emplace(k1, mark_price);
             element.emplace(k2, spot_index_price);
             element.emplace(k3, predicted_settlement_price);
             element.emplace(k4, funding_rate);
             element.emplace(k5, next_funding_rate_time);
+            element.emplace(k6, symbol_id);
             elementList.emplace_back(std::move(element));
           }
         } else {

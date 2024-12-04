@@ -110,6 +110,7 @@ class MarketDataMessage CCAPI_FINAL {
     ORDER_STATUS = 25,
     ORDER_LAST_TRADE_QTY = 26,
     ORDER_CUMSUM_TRADE_QTY = 27,
+    SYMBOL = 28,
   };
   static std::string dataFieldTypeToString(DataFieldType dataFieldType) {
     std::string output;
@@ -197,6 +198,9 @@ class MarketDataMessage CCAPI_FINAL {
         break;
       case DataFieldType::ORDER_CUMSUM_TRADE_QTY:
         output = "ORDER_CUMSUM_TRADE_QTY";
+        break;
+      case DataFieldType::SYMBOL:
+        output = "SYMBOL";
         break;
       default:
         CCAPI_LOGGER_FATAL(CCAPI_UNSUPPORTED_VALUE);
