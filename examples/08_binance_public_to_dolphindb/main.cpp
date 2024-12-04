@@ -55,8 +55,10 @@ class MyEventHandler : public EventHandler {
 
   void save_binance_depth_data(Message & msg){
     std::string symbol_id = msg.getSymbolId();
-    std::string server_time = msg.getTimeISO();
-    std::string local_update_time = msg.getTimeReceivedISO();
+    std::string server_time_ = msg.getTimeISO();
+    std::string local_update_time_ = msg.getTimeReceivedISO();
+    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
+    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
     std::vector<double> ask_price_list;
     std::vector<double> bid_price_list;
@@ -72,21 +74,54 @@ class MyEventHandler : public EventHandler {
         ask_volume_list.push_back(std::stod(element.getValue("ASK_SIZE")));
       }
     }
-    std::cout << symbol_id << " " << server_time << " " << local_update_time << std::endl;
-    std::cout << "[ ";
-    for (auto & d : ask_price_list){
-      std::cout << d << " ";
+    ConstantSP datetime = new Long(server_timestamp);
+    ConstantSP server_time = new Long(server_timestamp);
+    ConstantSP local_update_time = new Double(local_timestamp);
+    ConstantSP symbol = new String(symbol_id);
+      
+    if(!orderbook_writer.insert(errorInfo, datetime, server_time, local_update_time, symbol, ask_price_list, bid_price_list,
+        ask_volume_list, bid_volume_list)){
+        std::cout << "order_book_insert fail " << errorInfo.errorInfo << std::endl;
     }
-    std::cout << "]" << std::endl;
-    std::cout <<"depth_data " <<  symbol_id << " " << server_time << " " << local_update_time << std::endl;
+    update_num();
+    //std::cout <<"depth_data " <<  symbol_id << " " << server_time_ << " " << local_update_time_ << std::endl;
   }
 
   void save_binance_agg_trade_data(Message & msg){
     std::string symbol_id = msg.getSymbolId();
-    std::string server_time = msg.getTimeISO();
-    std::string local_update_time = msg.getTimeReceivedISO();
-    std::cout <<"agg_trade " <<  symbol_id << " " << server_time << " " << local_update_time << std::endl;
-  }
+    std::string server_time_ = msg.getTimeISO();
+    std::string local_update_time_ = msg.getTimeReceivedISO();
+    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
+    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
+    std::vector<Element> elements = msg.getElementList();
+    for (auto element : elements){
+      std::string _trade_id = element.getValue("AGG_TRADE_ID");
+      std::string _trade_first_id = element.getValue("AGG_TRADE_FIRST_ID");
+      std::string _trade_last_id = element.getValue("AGG_TRADE_LAST_ID");
+      std::string _trade_type = element.getValue("IS_BUYER_MAKER");
+      double _trade_price = std::stod(element.getValue("LAST_PRICE"));
+      double _trade_qty = std::stod(element.getValue("LAST_SIZE"));
+
+      ConstantSP datetime = new Long(server_timestamp);
+      ConstantSP server_time = new Long(server_timestamp);
+      ConstantSP local_update_time = new Double(local_timestamp);
+      ConstantSP symbol = new String(symbol_id);
+      ConstantSP trade_id = new String(_trade_id);
+      ConstantSP trade_first_id = new String(_trade_first_id);
+      ConstantSP trade_last_id = new String(_trade_last_id);
+      ConstantSP trade_type = new String(_trade_type);
+      ConstantSP trade_price = new Double(_trade_price);
+      ConstantSP trade_qty = new Double(_trade_qty);
+      ConstantSP trade_time = new Double(server_timestamp);
+      if(!agg_trade_writer.insert(errorInfo, datetime, server_time, local_update_time, symbol, trade_id, trade_first_id, trade_last_id,
+          trade_type, trade_price, trade_qty, trade_time)){
+          std::cout << "agg_trade_insert fail " << errorInfo.errorInfo << std::endl;
+      }
+      update_num();
+    }
+    // std::cout << toString(msg) << std::endl;
+    // std::cout <<"agg_trade " <<  symbol_id << " " << server_time_ << " " << local_update_time_ << std::endl;
+  };
 
   void save_binance_force_order_data(Message & msg){
     std::string server_time_ = msg.getTimeISO();
@@ -94,7 +129,7 @@ class MyEventHandler : public EventHandler {
     int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
     int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
-    std::cout << toString(msg) << std::endl;
+    // std::cout << toString(msg) << std::endl;
     for (auto element : elements){
       std::string symbol_id = element.getValue("symbol_id");
       std::string _order_side = element.getValue("order_side");
@@ -124,7 +159,7 @@ class MyEventHandler : public EventHandler {
           std::cout << "force_order_insert fail " << errorInfo.errorInfo << std::endl;
       }
       update_num();
-      std::cout <<"force_order " <<  symbol_id << " " << server_timestamp << " " << local_update_time_ << std::endl;
+      // std::cout <<"force_order " <<  symbol_id << " " << server_timestamp << " " << local_update_time_ << std::endl;
 
     }
   }
@@ -242,28 +277,30 @@ int main(int argc, char** argv) {
     Subscription s0("binance-usds-futures", "", "MARK_PRICE", "", "mark_price");
     // 订阅全部强平订单
     Subscription s1("binance-usds-futures", "", "FORCE_ORDER", "", "force_order");
-    std::vector<Subscription> subscription_list = {s1};
-    // // 生成标记价格和强平订单的订阅
-    // std::vector<Subscription> subscription_list = {s0, s1};
-    // // 请求全部合约数据
-    // Request request(Request::Operation::GET_INSTRUMENTS, "binance-usds-futures", "BTC-USD");
-    // session.sendRequest(request);
-    // while (eventHandler.instrument_names.size()==0){
-    //   std::this_thread::sleep_for(std::chrono::seconds(1));
-    //   std::cout << "wait for the instruments_names" << std::endl;
-    // }
-    // // 生成其他的订阅
-    // int count = 0;
-    // for (auto name : eventHandler.instrument_names){
-    //   Subscription s2("binance-usds-futures", name, "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
-    //   Subscription s3("binance-usds-futures", name, "AGG_TRADE", "", "agg_trade");
-    //   subscription_list.push_back(s2);
-    //   subscription_list.push_back(s3);
-    //   count++;
-    //   if (count > 10){
-    //     break;
-    //     }
-    //  }
+    // 生成标记价格和强平订单的订阅
+    std::vector<Subscription> subscription_list = {s0, s1};
+    // 请求全部合约数据
+    Request request(Request::Operation::GET_INSTRUMENTS, "binance-usds-futures", "BTC-USD");
+    session.sendRequest(request);
+    while (eventHandler.instrument_names.size()==0){
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::cout << "wait for the instruments_names" << std::endl;
+    }
+    // 生成其他的订阅
+    int count = 0;
+    for (auto name : eventHandler.instrument_names){
+      Subscription s2("binance-usds-futures", name, "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
+      Subscription s3("binance-usds-futures", name, "AGG_TRADE", "", "agg_trade");
+      subscription_list.push_back(s2);
+      subscription_list.push_back(s3);
+      count++;
+      // if (count > 10){
+      //   break;
+      //   }
+    }
+    // Subscription s3("binance-usds-futures", "btcusdt", "AGG_TRADE", "", "agg_trade");
+    // Subscription s4("binance-usds-futures", "btcusdt", "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
+    // std::vector<Subscription> subscription_list = {s4};
     std::cout << "begin to subscribe data" << std::endl;
     session.subscribe(subscription_list);
     // 无限循环以保持程序运行
