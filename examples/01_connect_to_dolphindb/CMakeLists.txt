@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
+
 set(ProjectName apiDemo)
 project(${ProjectName})
+
 set(SRC_LIST
         # ${CMAKE_CURRENT_SOURCE_DIR}/examples/01_connect_to_dolphindb/main.cpp
         main.cpp
 )
+
 set(LINK_LIBS)
+
 if(USE_OPENSSL)
     add_definitions("-DUSE_OPENSSL=1")
     if(OPENSSL_PATH)
@@ -17,6 +21,7 @@ if(USE_OPENSSL)
     message("openssl ssl lib dir    : ${OPENSSL_SSL_LIBRARY}")
     message("openssl crypto lib dir : ${OPENSSL_CRYPTO_LIBRARY}")
 endif()
+
 if(UNIX)
     add_compile_options(-std=c++2a -DLINUX -Wall -O0 -g -fPIC -Wl,-rpath,${CMAKE_CURRENT_SOURCE_DIR}:${CMAKE_CURRENT_SOURCE_DIR}/lib)
     if(ABI EQUAL 0)
@@ -45,20 +50,30 @@ elseif(WIN32)
         list(APPEND LINK_LIBS DolphinDBAPI pthread)
     endif()
 endif()
+
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../include
 )
+
 # 输出指定文件夹中的文件名
 file(GLOB_RECURSE LIB_FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/*")
 message(STATUS "Files in ${CMAKE_CURRENT_SOURCE_DIR}/../../lib:")
 foreach(FILE ${LIB_FILES})
     message(STATUS "  ${FILE}")
 endforeach()
+
 link_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
 )
+
 add_executable(${ProjectName} ${SRC_LIST})
+
+# 确保链接时包含 libDolphinDBAPI.so
 target_link_libraries(${ProjectName}
         ${LINK_LIBS}
+        ${OPENSSL_LIBRARIES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/libDolphinDBAPI.so
 )
-# set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin/)
+
+# 设置可执行文件的输出路径
+#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin/)
