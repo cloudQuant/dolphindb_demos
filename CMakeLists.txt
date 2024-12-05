@@ -11,9 +11,18 @@ option(USE_AERON "Use Aeron for UDP connections. ${CMAKE_PROJECT_NAME} will sear
 option(WITH_GTEST "Compile testcases." OFF)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
-# Set the output directory for the shared library
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib
+# 设置输出路径
+set(LIBRARY_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(EXECUTABLE_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
+# 配置共享库输出路径
+set_target_properties(${NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_DIR}
+)
+
+# 配置可执行文件输出路径（如有）
+set_target_properties(${NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_DIR}
 )
 add_subdirectory(src)
 
