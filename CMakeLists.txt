@@ -40,8 +40,7 @@ endif()
 target_include_directories(${CMAKE_PROJECT_NAME}
     PRIVATE ${OPENSSL_INCLUDE_DIR}
     PRIVATE ${AERON_INCLUDE_DIR}
-        PRIVATE ${CMAKE_SOURCE_DIR}/src
-        PRIVATE ${CMAKE_SOURCE_DIR}/include
+        PRIVATE ${CMAKE_SOURCE_DIR}/include/
 )
 target_link_libraries(${CMAKE_PROJECT_NAME}
     PRIVATE ${OPENSSL_SSL_LIBRARY}

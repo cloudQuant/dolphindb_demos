@@ -6,6 +6,7 @@ endif()
 
 target_include_directories(${CMAKE_PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
+        PRIVATE ${PROJECT_SOURCE_DIR}/include/internal
 )
 
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE

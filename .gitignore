@@ -4,6 +4,7 @@ app/.idea/
 app/cmake-build-debug/
 include/.idea/
 tests/cmake-build-debug/
+cmake-build-debug/
 
 # Deploy
 build/
