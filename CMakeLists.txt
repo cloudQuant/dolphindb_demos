@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(DolphinDBAPI)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(USE_OPENSSL "Use OpenSSL for encrypted communication." ON)
@@ -11,7 +11,10 @@ option(USE_AERON "Use Aeron for UDP connections. ${CMAKE_PROJECT_NAME} will sear
 option(WITH_GTEST "Compile testcases." OFF)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
-
+# Set the output directory for the shared library
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+)
 add_subdirectory(src)
 
 if (USE_OPENSSL)
