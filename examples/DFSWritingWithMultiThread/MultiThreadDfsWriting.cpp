@@ -26,7 +26,7 @@ struct parameter {
 
 void showUsage() {
   cout << "DolpinDB Multi-threaded performance test program" << endl;
-  cout << "Usage example:--h=127.0.0.1 --p=8921 --c=1000 --n=5 --t=5 "
+  cout << "Usage examples:--h=127.0.0.1 --p=8921 --c=1000 --n=5 --t=5 "
           "--s=1579080800000"
        << endl;
   cout << "Options :" << endl;

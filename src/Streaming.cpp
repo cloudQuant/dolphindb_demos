@@ -777,7 +777,7 @@ void UDPStreamingImpl::subscribe(const SubscribeInfo &info, const SubscribeConfi
     client.aeron = AeronStart();
     std::string channel = "aeron:udp?endpoint=224.1.1.1:";
     channel += std::to_string(client.port);
-    // copied from Aeron's subscriber example code.
+    // copied from Aeron's subscriber examples code.
     int64_t id = client.aeron->addSubscription(channel, 0);
     client.subscription = client.aeron->findSubscription(id);
     while (!client.subscription) {

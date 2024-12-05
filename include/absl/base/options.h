@@ -85,7 +85,7 @@
 // A value of 2 means to detect the C++ version being used to compile Abseil,
 // and use an alias only if a working std::any is available.  This option is
 // useful when you are building your entire program, including all of its
-// dependencies, from source.  It should not be used otherwise -- for example,
+// dependencies, from source.  It should not be used otherwise -- for examples,
 // if you are distributing Abseil in a binary package manager -- since in
 // mode 2, absl::any will name a different type, with a different mangled name
 // and binary layout, depending on the compiler flags passed by the end user.
@@ -111,7 +111,7 @@
 // A value of 2 means to detect the C++ version being used to compile Abseil,
 // and use an alias only if a working std::optional is available.  This option
 // is useful when you are building your program from source.  It should not be
-// used otherwise -- for example, if you are distributing Abseil in a binary
+// used otherwise -- for examples, if you are distributing Abseil in a binary
 // package manager -- since in mode 2, absl::optional will name a different
 // type, with a different mangled name and binary layout, depending on the
 // compiler flags passed by the end user.  For more info, see
@@ -138,7 +138,7 @@
 // A value of 2 means to detect the C++ version being used to compile Abseil,
 // and use an alias only if a working std::string_view is available.  This
 // option is useful when you are building your program from source.  It should
-// not be used otherwise -- for example, if you are distributing Abseil in a
+// not be used otherwise -- for examples, if you are distributing Abseil in a
 // binary package manager -- since in mode 2, absl::string_view will name a
 // different type, with a different mangled name and binary layout, depending on
 // the compiler flags passed by the end user.  For more info, see
@@ -164,7 +164,7 @@
 // A value of 2 means to detect the C++ version being used to compile Abseil,
 // and use an alias only if a working std::variant is available.  This option
 // is useful when you are building your program from source.  It should not be
-// used otherwise -- for example, if you are distributing Abseil in a binary
+// used otherwise -- for examples, if you are distributing Abseil in a binary
 // package manager -- since in mode 2, absl::variant will name a different
 // type, with a different mangled name and binary layout, depending on the
 // compiler flags passed by the end user.  For more info, see

@@ -728,7 +728,7 @@
 //
 // When applied to a reference parameter, the referenced object is assumed to be
 // retained by the return value of the function. When applied to a non-reference
-// parameter (for example, a pointer or a class type), all temporaries
+// parameter (for examples, a pointer or a class type), all temporaries
 // referenced by the parameter are assumed to be retained by the return value of
 // the function.
 //

@@ -24,7 +24,7 @@ struct parameter {
 
 void showUsage() {
   cout << "DolpinDB Multi-threaded streaming date writing program" << endl;
-  cout << "Usage example:--h=127.0.0.1 --p=8921 --c=1000 --n=5 --t=5 " << endl;
+  cout << "Usage examples:--h=127.0.0.1 --p=8921 --c=1000 --n=5 --t=5 " << endl;
   cout << "Options :" << endl;
   cout << " --h=127.0.0.1 Mandatory,dolphindb host，Multiple hosts separated "
           "by commas"

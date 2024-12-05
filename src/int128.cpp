@@ -46,7 +46,7 @@ namespace {
 // Returns the 0-based position of the last set bit (i.e., most significant bit)
 // in the given uint128. The argument is not 0.
 //
-// For example:
+// For examples:
 //   Given: 5 (decimal) == 101 (binary)
 //   Returns: 2
 inline ABSL_ATTRIBUTE_ALWAYS_INLINE int Fls128(uint128 n) {

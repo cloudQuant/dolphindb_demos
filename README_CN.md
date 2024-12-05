@@ -795,7 +795,7 @@ void *writeData(void *arg) {
 }
 ```
 
-更多分布式表的并发写入案例可以参考样例[MultiThreadDFSWriting.cpp](./example/DFSWritingWithMultiThread/MultiThreadDfsWriting.cpp)。
+更多分布式表的并发写入案例可以参考样例[MultiThreadDFSWriting.cpp](examples/DFSWritingWithMultiThread/MultiThreadDfsWriting.cpp)。
 
 ### 8. 注意事项
 

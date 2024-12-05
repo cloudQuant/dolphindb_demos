@@ -43,7 +43,7 @@
 int main(int argc, char *argv[]){
     // DBConnection::initialize();
     testing::InitGoogleTest(&argc, argv);
-    // test filter example:
+    // test filter examples:
     // ?	单个字符
     // *	任意字符
     // -	排除，如，-a 表示除了a

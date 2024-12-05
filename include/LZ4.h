@@ -151,7 +151,7 @@ LZ4LIB_API int LZ4_decompress_safe (const char* source, char* dest, int compress
 LZ4_compressBound() :
     Provides the maximum size that LZ4 compression may output in a "worst case" scenario (input data not compressible)
     This function is primarily useful for memory allocation purposes (destination buffer size).
-    Macro LZ4_COMPRESSBOUND() is also provided for compilation-time evaluation (stack memory allocation for example).
+    Macro LZ4_COMPRESSBOUND() is also provided for compilation-time evaluation (stack memory allocation for examples).
     Note that LZ4_compress_default() compress faster when dest buffer size is >= LZ4_compressBound(srcSize)
         inputSize  : max supported value is LZ4_MAX_INPUT_SIZE
         return : maximum output size in a "worst case" scenario

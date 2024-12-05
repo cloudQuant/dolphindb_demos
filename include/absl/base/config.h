@@ -22,7 +22,7 @@
 // produce portable code by parameterizing compilation based on the presence or
 // lack of a given feature.
 //
-// We define a "feature" as some interface we wish to program to: for example,
+// We define a "feature" as some interface we wish to program to: for examples,
 // a library function or system call. A value of `1` indicates support for
 // that feature; any other value indicates the feature support is undefined.
 //
@@ -63,7 +63,7 @@
 // https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 //
 // However, there are reports that MSVC even sets _MSVC_LANG incorrectly at
-// times, for example:
+// times, for examples:
 // https://github.com/microsoft/vscode-cpptools/issues/1770
 // https://reviews.llvm.org/D70996
 //
@@ -90,7 +90,7 @@
 // LTS release version, and will define `ABSL_LTS_RELEASE_PATCH_LEVEL` to the
 // integer representing the patch-level for that release.
 //
-// For example, for LTS release version "20300401.2", this would give us
+// For examples, for LTS release version "20300401.2", this would give us
 // ABSL_LTS_RELEASE_VERSION == 20300401 && ABSL_LTS_RELEASE_PATCH_LEVEL == 2
 //
 // These symbols will not be defined in non-LTS code.
@@ -310,7 +310,7 @@ static_assert(ABSL_INTERNAL_INLINE_NAMESPACE_STR[0] != 'h' ||
 #endif
 
 // There are platforms for which TLS should not be used even though the compiler
-// makes it seem like it's supported (Android NDK < r12b for example).
+// makes it seem like it's supported (Android NDK < r12b for examples).
 // This is primarily because of linker problems and toolchain misconfiguration:
 // Abseil does not intend to support this indefinitely. Currently, the newest
 // toolchain that we intend to support that requires this behavior is the
@@ -854,7 +854,7 @@ static_assert(ABSL_INTERNAL_INLINE_NAMESPACE_STR[0] != 'h' ||
 // ABSL_INTERNAL_NEED_REDUNDANT_CONSTEXPR_DECL
 //
 // Prior to C++17, static constexpr variables defined in classes required a
-// separate definition outside of the class body, for example:
+// separate definition outside of the class body, for examples:
 //
 // class Foo {
 //   static constexpr int kBar = 0;

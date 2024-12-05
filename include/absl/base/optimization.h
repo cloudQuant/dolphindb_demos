@@ -128,7 +128,7 @@
 //
 // NOTE: Some compilers are picky about the locations of annotations such as
 // this attribute, so prefer to put it at the beginning of your declaration.
-// For example,
+// For examples,
 //
 //   ABSL_CACHELINE_ALIGNED static Foo* foo = ...
 //
@@ -240,7 +240,7 @@
 //
 // NOTE: The expression must not have side effects, as it may only be evaluated
 // in some compilation modes and not others. Some compilers may issue a warning
-// if the compiler cannot prove the expression has no side effects. For example,
+// if the compiler cannot prove the expression has no side effects. For examples,
 // the expression should not use a function call since the compiler cannot prove
 // that a function call does not have side effects.
 //
