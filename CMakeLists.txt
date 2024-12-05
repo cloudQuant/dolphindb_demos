@@ -11,13 +11,7 @@ option(USE_AERON "Use Aeron for UDP connections. ${CMAKE_PROJECT_NAME} will sear
 option(WITH_GTEST "Compile testcases." OFF)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
-# 强制将 .so 文件输出到 CMakeLists.txt 同目录的 lib 文件夹
-set(OUTPUT_LIB_DIR ../${CMAKE_SOURCE_DIR}/lib)
 
-# 配置生成共享库的输出路径
-set_target_properties(${NAME} PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_LIB_DIR}
-)
 add_subdirectory(src)
 
 if (USE_OPENSSL)
@@ -100,3 +94,11 @@ if (WITH_GTEST)
             gmock_main
     )
 endif()
+
+# 强制将 .so 文件输出到 CMakeLists.txt 同目录的 lib 文件夹
+set(OUTPUT_LIB_DIR ../${CMAKE_SOURCE_DIR}/lib)
+
+# 配置生成共享库的输出路径
+set_target_properties(${NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_LIB_DIR}
+)
