@@ -9,7 +9,7 @@ set(SRC_LIST
 )
 
 set(LINK_LIBS)
-
+set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 if(USE_OPENSSL)
     add_definitions("-DUSE_OPENSSL=1")
     if(OPENSSL_PATH)
@@ -72,6 +72,7 @@ add_executable(${ProjectName} ${SRC_LIST})
 target_link_libraries(${ProjectName}
         ${LINK_LIBS}
         ${OPENSSL_LIBRARIES}
+        DolphinDBAPI
         # ${CMAKE_CURRENT_SOURCE_DIR}/../lib/libDolphinDBAPI.so
 )
 
