@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(DolphinDBAPI)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(USE_OPENSSL "Use OpenSSL for encrypted communication." ON)
@@ -11,9 +11,7 @@ option(USE_AERON "Use Aeron for UDP connections. ${CMAKE_PROJECT_NAME} will sear
 option(WITH_GTEST "Compile testcases." OFF)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
-target_include_directories(${CMAKE_PROJECT_NAME}
-        PRIVATE ${CMAKE_SOURCE_DIR}/include/
-)
+
 add_subdirectory(src)
 
 if (USE_OPENSSL)
@@ -26,28 +24,27 @@ if (USE_AERON)
         set(AERON_INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
     endif()
     set(AERON_INCLUDE_DIR
-        "${AERON_INSTALL_DIR}/include/wrapper"
-        "${AERON_INSTALL_DIR}/include/aeron"
-        "${AERON_INSTALL_DIR}/include"
+            "${AERON_INSTALL_DIR}/include/wrapper"
+            "${AERON_INSTALL_DIR}/include/aeron"
+            "${AERON_INSTALL_DIR}/include"
     )
     target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE ${AERON_INSTALL_DIR}/lib)
     set(AERON_LIBRARY
-        aeron
-        aeron_client_shared
-        aeron_driver
+            aeron
+            aeron_client_shared
+            aeron_driver
     )
     target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE USE_AERON)
 endif()
 
 target_include_directories(${CMAKE_PROJECT_NAME}
-    PRIVATE ${OPENSSL_INCLUDE_DIR}
-    PRIVATE ${AERON_INCLUDE_DIR}
-        PRIVATE ${CMAKE_SOURCE_DIR}/include/
+        PRIVATE ${OPENSSL_INCLUDE_DIR}
+        PRIVATE ${AERON_INCLUDE_DIR}
 )
 target_link_libraries(${CMAKE_PROJECT_NAME}
-    PRIVATE ${OPENSSL_SSL_LIBRARY}
-    PRIVATE ${OPENSSL_CRYPTO_LIBRARY}
-    PRIVATE ${AERON_LIBRARY}
+        PRIVATE ${OPENSSL_SSL_LIBRARY}
+        PRIVATE ${OPENSSL_CRYPTO_LIBRARY}
+        PRIVATE ${AERON_LIBRARY}
 )
 
 if (WIN32)
@@ -92,8 +89,8 @@ if (WITH_GTEST)
     enable_testing()
 
     target_link_libraries(${CMAKE_PROJECT_NAME}_test
-        ${CMAKE_PROJECT_NAME}
-        gtest_main
-        gmock_main
+            ${CMAKE_PROJECT_NAME}
+            gtest_main
+            gmock_main
     )
 endif()
