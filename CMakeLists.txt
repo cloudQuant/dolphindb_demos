@@ -11,20 +11,12 @@ option(USE_AERON "Use Aeron for UDP connections. ${CMAKE_PROJECT_NAME} will sear
 option(WITH_GTEST "Compile testcases." OFF)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
-# 设置 .so 文件输出到 CMakeLists.txt 同目录的 lib 文件夹
-set(LIBRARY_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+# 强制将 .so 文件输出到 CMakeLists.txt 同目录的 lib 文件夹
+set(OUTPUT_LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
 
-# 配置生成目标的输出路径
+# 配置生成共享库的输出路径
 set_target_properties(${NAME} PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_DIR}
-)
-
-# 如果需要添加其他输出路径，可以手动覆盖
-set(EXECUTABLE_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
-
-# 配置共享库输出路径
-set_target_properties(${NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_DIR}
+        LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_LIB_DIR}
 )
 add_subdirectory(src)
 
