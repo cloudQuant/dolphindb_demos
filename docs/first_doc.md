@@ -4,7 +4,7 @@
     mkdir build && cd build && 
     cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_AERON=OFF -DUSE_OPENSSL=ON && 
     make -j4 &&
-    cp libDolphinDBAPI.so ../lib
+    cp libDolphinDBAPI.so ../examples/lib
     ```
 2. linux下编译单个文件
     ```bash

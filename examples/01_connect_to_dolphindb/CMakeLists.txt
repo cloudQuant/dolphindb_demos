@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 set(ProjectName apiDemo)
 project(${ProjectName})
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(SRC_LIST
         # ${CMAKE_CURRENT_SOURCE_DIR}/examples/01_connect_to_dolphindb/main.cpp
