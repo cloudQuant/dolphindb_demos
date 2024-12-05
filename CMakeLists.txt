@@ -11,7 +11,9 @@ option(USE_AERON "Use Aeron for UDP connections. ${CMAKE_PROJECT_NAME} will sear
 option(WITH_GTEST "Compile testcases." OFF)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
-
+target_include_directories(${CMAKE_PROJECT_NAME}
+        PRIVATE ${CMAKE_SOURCE_DIR}/include/
+)
 add_subdirectory(src)
 
 if (USE_OPENSSL)
