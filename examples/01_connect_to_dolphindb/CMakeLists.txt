@@ -48,6 +48,12 @@ endif()
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../include
 )
+# 输出指定文件夹中的文件名
+file(GLOB_RECURSE LIB_FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/*")
+message(STATUS "Files in ${CMAKE_CURRENT_SOURCE_DIR}/../../lib:")
+foreach(FILE ${LIB_FILES})
+    message(STATUS "  ${FILE}")
+endforeach()
 link_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../lib
 )
