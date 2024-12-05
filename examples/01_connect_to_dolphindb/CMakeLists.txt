@@ -72,7 +72,7 @@ add_executable(${ProjectName} ${SRC_LIST})
 target_link_libraries(${ProjectName}
         ${LINK_LIBS}
         ${OPENSSL_LIBRARIES}
-        ${CMAKE_CURRENT_SOURCE_DIR}/../lib/libDolphinDBAPI.so
+        # ${CMAKE_CURRENT_SOURCE_DIR}/../lib/libDolphinDBAPI.so
 )
 
 # 设置可执行文件的输出路径
