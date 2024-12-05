@@ -96,7 +96,7 @@ if (WITH_GTEST)
 endif()
 
 # 强制将 .so 文件输出到 CMakeLists.txt 同目录的 lib 文件夹
-set(OUTPUT_LIB_DIR ../${CMAKE_SOURCE_DIR}/lib)
+set(OUTPUT_LIB_DIR ${CMAKE_SOURCE_DIR}../lib)
 
 # 配置生成共享库的输出路径
 set_target_properties(${NAME} PROPERTIES

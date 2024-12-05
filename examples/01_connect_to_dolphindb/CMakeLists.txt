@@ -49,7 +49,7 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../include
 )
 link_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}/../lib/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/
 )
 add_executable(${ProjectName} ${SRC_LIST})
 target_link_libraries(${ProjectName}
