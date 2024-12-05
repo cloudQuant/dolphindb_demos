@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(DolphinDBAPI)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(USE_OPENSSL "Use OpenSSL for encrypted communication." ON)
@@ -40,6 +40,8 @@ endif()
 target_include_directories(${CMAKE_PROJECT_NAME}
     PRIVATE ${OPENSSL_INCLUDE_DIR}
     PRIVATE ${AERON_INCLUDE_DIR}
+        PRIVATE ${CMAKE_SOURCE_DIR}/src
+        PRIVATE ${CMAKE_SOURCE_DIR}/include
 )
 target_link_libraries(${CMAKE_PROJECT_NAME}
     PRIVATE ${OPENSSL_SSL_LIBRARY}
