@@ -13,7 +13,7 @@ option(WITH_GTEST "Compile testcases." OFF)
 add_library(${CMAKE_PROJECT_NAME} SHARED)
 # Set the output directory for the shared library
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib
 )
 add_subdirectory(src)
 
