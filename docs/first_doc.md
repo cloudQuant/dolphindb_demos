@@ -1,4 +1,13 @@
-1. linux编译so文件指令
+1. some packages needed to install
+   ```bash
+   # openssl
+   sudo apt-get install libssl-dev
+   # uuid
+   sudo apt-get install uuid-dev
+   # zlib
+   sudo apt-get install zlib1g-dev
+   ```
+2. linux编译so文件指令
     ```bash
     # 在主目录下运行
     mkdir build && cd build && 
