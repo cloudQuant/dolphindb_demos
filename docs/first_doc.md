@@ -20,3 +20,8 @@
     cmake -B build -DABI=0 -DUSE_OPENSSL=1 &&
     cmake --build build
     ```
+   
+3. 运行获取数据保存到本地：
+```bash
+nohup ~/dolphindb_demos/examples/build/07_binance_public_to_dolphindb/binance_public_to_dolphindb dispatch_events_to_multiple_threads > ~/logs/binance_public_to_dolphindb.log 2>&1 &
+```
