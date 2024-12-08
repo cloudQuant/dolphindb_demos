@@ -101,7 +101,5 @@ add_subdirectory(01_connect_to_dolphindb)
 add_subdirectory(02_data_upload_to_dolphindb)
 add_subdirectory(03_run_sql_in_dolphindb)
 add_subdirectory(04_variable_in_cpp_and_dolphindb)
-add_subdirectory(05_binance_public_subscription_test)
-add_subdirectory(06_binance_public)
-add_subdirectory(07_binance_public_to_dolphindb)
+add_subdirectory(05_binance_public_to_dolphindb)
 

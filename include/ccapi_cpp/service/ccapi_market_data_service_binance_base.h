@@ -312,6 +312,7 @@ class MarketDataServiceBinanceBase : public MarketDataService {
             marketDataMessage.tp = time;
             marketDataMessage.recapType = MarketDataMessage::RecapType::NONE;
             MarketDataMessage::TypeForDataPoint dataPoint;
+            dataPoint.insert({MarketDataMessage::DataFieldType::SERVER_TIME, entry["E"].GetString()});
             dataPoint.insert({MarketDataMessage::DataFieldType::MARK_PRICE, UtilString::normalizeDecimalString(std::string(entry["p"].GetString()))});
             dataPoint.insert({MarketDataMessage::DataFieldType::SPOT_INDEX_PRICE, UtilString::normalizeDecimalString(std::string(entry["i"].GetString()))});
             dataPoint.insert(

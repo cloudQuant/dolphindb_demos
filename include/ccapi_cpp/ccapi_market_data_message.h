@@ -51,6 +51,7 @@ class MarketDataMessage CCAPI_FINAL {
     CANDLESTICK = 4,
     MARK_PRICE = 5,
     FORCE_ORDER = 6,
+    TIMESTAMP = 7,
   };
   static std::string dataTypeToString(DataType dataType) {
     std::string output;
@@ -75,6 +76,9 @@ class MarketDataMessage CCAPI_FINAL {
         break;
       case DataType::FORCE_ORDER:
         output = "FORCE_ORDER";
+        break;
+      case DataType::TIMESTAMP:
+        output = "TIMESTAMP";
         break;
       default:
         CCAPI_LOGGER_FATAL(CCAPI_UNSUPPORTED_VALUE);
@@ -111,6 +115,7 @@ class MarketDataMessage CCAPI_FINAL {
     ORDER_LAST_TRADE_QTY = 26,
     ORDER_CUMSUM_TRADE_QTY = 27,
     SYMBOL = 28,
+    SERVER_TIME = 29,
   };
   static std::string dataFieldTypeToString(DataFieldType dataFieldType) {
     std::string output;
@@ -201,6 +206,9 @@ class MarketDataMessage CCAPI_FINAL {
         break;
       case DataFieldType::SYMBOL:
         output = "SYMBOL";
+        break;
+        case DataFieldType::SERVER_TIME:
+        output = "SERVER_TIME";
         break;
       default:
         CCAPI_LOGGER_FATAL(CCAPI_UNSUPPORTED_VALUE);
