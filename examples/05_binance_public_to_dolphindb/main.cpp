@@ -37,14 +37,14 @@ class MyEventHandler : public EventHandler {
   std::unique_ptr<MultithreadedTableWriter> agg_trade_writer;
 
 
-  MyEventHandler() {
+  MyEventHandler(const std::string &user_id, const std::string &password) {
     try {
         // 初始化成员变量
-        mark_price_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, "admin", "123456", "dfs://binance_data", "mark_price", false, false, nullptr, 1000);
-        funding_rate_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, "admin", "123456", "dfs://binance_data", "funding_rate", false, false, nullptr, 1000);
-        orderbook_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, "admin", "123456", "dfs://binance_data", "orderbook", false, false, nullptr, 1000);
-        force_order_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, "admin", "123456", "dfs://binance_data", "force_order", false, false, nullptr, 1000);
-        agg_trade_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, "admin", "123456", "dfs://binance_data", "agg_trade", false, false, nullptr, 1000);
+        mark_price_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "mark_price", false, false, nullptr, 1000);
+        funding_rate_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "funding_rate", false, false, nullptr, 1000);
+        orderbook_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "orderbook", false, false, nullptr, 1000);
+        force_order_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "force_order", false, false, nullptr, 1000);
+        agg_trade_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "agg_trade", false, false, nullptr, 1000);
     } catch (const std::exception& e) {
         // Handle the exception, log it, or rethrow it if necessary
         std::cerr << "Error initializing writers: " << e.what() << std::endl;
@@ -67,10 +67,8 @@ class MyEventHandler : public EventHandler {
 
   void save_binance_depth_data(Message & msg){
     std::string symbol_id = msg.getSymbolId();
-    std::string server_time_ = msg.getTimeISO();
-    std::string local_update_time_ = msg.getTimeReceivedISO();
-    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
-    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
+    long long server_timestamp = UtilTime::timePointToTimestamp(msg.getTime());
+    long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
     std::vector<double> ask_price_list;
     std::vector<double> bid_price_list;
@@ -86,9 +84,9 @@ class MyEventHandler : public EventHandler {
         ask_volume_list.push_back(std::stod(element.getValue("ASK_SIZE")));
       }
     }
-    ConstantSP datetime = new Long(server_timestamp);
-    ConstantSP server_time = new Long(server_timestamp);
-    ConstantSP local_update_time = new Double(local_timestamp);
+    ConstantSP datetime = new Long(server_timestamp/1000000);
+    ConstantSP server_time = new Long(server_timestamp/1000000);
+    ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
     ConstantSP symbol = new String(symbol_id);
       
     if(!orderbook_writer->insert(errorInfo, datetime, server_time, local_update_time, symbol, ask_price_list, bid_price_list,
@@ -101,10 +99,8 @@ class MyEventHandler : public EventHandler {
 
   void save_binance_agg_trade_data(Message & msg){
     std::string symbol_id = msg.getSymbolId();
-    std::string server_time_ = msg.getTimeISO();
-    std::string local_update_time_ = msg.getTimeReceivedISO();
-    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
-    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
+    long long server_timestamp = UtilTime::timePointToTimestamp(msg.getTime());
+    long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
     for (auto element : elements){
       std::string _trade_id = element.getValue("AGG_TRADE_ID");
@@ -113,9 +109,9 @@ class MyEventHandler : public EventHandler {
       std::string _trade_type = element.getValue("IS_BUYER_MAKER");
       double _trade_price = std::stod(element.getValue("LAST_PRICE"));
       double _trade_qty = std::stod(element.getValue("LAST_SIZE"));
-      ConstantSP datetime = new Long(server_timestamp);
-      ConstantSP server_time = new Long(server_timestamp);
-      ConstantSP local_update_time = new Double(local_timestamp);
+      ConstantSP datetime = new Long(server_timestamp/1000000);
+      ConstantSP server_time = new Long(server_timestamp/1000000);
+      ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
       ConstantSP symbol = new String(symbol_id);
       ConstantSP trade_id = new String(_trade_id);
       ConstantSP trade_first_id = new String(_trade_first_id);
@@ -135,10 +131,10 @@ class MyEventHandler : public EventHandler {
   };
 
   void save_binance_force_order_data(Message & msg){
-    std::string server_time_ = msg.getTimeISO();
-    std::string local_update_time_ = msg.getTimeReceivedISO();
-    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
-    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
+    //std::string server_time_ = msg.getTimeISO();
+    //std::string local_update_time_ = msg.getTimeReceivedISO();
+    long long server_timestamp = UtilTime::timePointToTimestamp(msg.getTime());
+    long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
     // std::cout << toString(msg) << std::endl;
     for (auto element : elements){
@@ -152,9 +148,9 @@ class MyEventHandler : public EventHandler {
       double _order_avg_price = std::stod(element.getValue("order_avg_price"));
       double _last_trade_qty = std::stod(element.getValue("order_last_trade_qty"));
       double _order_cumsum_trade_qty = std::stod(element.getValue("order_cumsum_trade_qty"));
-      ConstantSP datetime = new Long(server_timestamp);
-      ConstantSP server_time = new Long(server_timestamp);
-      ConstantSP local_update_time = new Double(local_timestamp);
+      ConstantSP datetime = new Long(server_timestamp/1000000);
+      ConstantSP server_time = new Long(server_timestamp/1000000);
+      ConstantSP local_update_time = new Double(local_timestamp/10000000.0);
       ConstantSP symbol = new String(symbol_id);
       ConstantSP order_side = new String(_order_side);
       ConstantSP order_type = new String(_order_type);
@@ -175,10 +171,8 @@ class MyEventHandler : public EventHandler {
   }
 
   void save_binance_mark_price_data(Message & msg){
-    std::string server_time_ = msg.getTimeISO();
-    std::string local_update_time_ = msg.getTimeReceivedISO();
-    int server_timestamp = UtilTime::getUnixTimestamp(msg.getTime());
-    int local_timestamp = UtilTime::getUnixTimestamp(msg.getTimeReceived());
+    long long server_timestamp = UtilTime::timePointToTimestamp(msg.getTime());
+    long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
     for (auto element : elements){
         std::string _server_time = element.getValue("server_time");
@@ -188,26 +182,25 @@ class MyEventHandler : public EventHandler {
       double _next_funding_rate_time = std::stod(element.getValue("next_funding_rate_time"));
       double _predicted_settlement_price = std::stod(element.getValue("predicted_settlement_price"));
       double _spot_index_price = std::stod(element.getValue("spot_index_price"));
-      ConstantSP datetime = new Long(server_timestamp);
+      ConstantSP datetime = new Long(server_timestamp/1000000);
       ConstantSP server_time = new Long(std::stol(_server_time));
-      ConstantSP local_update_time = new Double(local_timestamp);
+      ConstantSP local_update_time = new Double(local_timestamp/1000000);
       ConstantSP symbol = new String(symbol_id);
       ConstantSP mark_price = new Double(_mark_price);
       ConstantSP index_price = new Double(_spot_index_price);
       ConstantSP settlement_price = new Double(_predicted_settlement_price);
 
-//      if(!mark_price_writer.insert(errorInfo, datetime, server_time, local_update_time, symbol, mark_price, index_price, settlement_price)){
-//          std::cout << "mark_price_insert fail " << errorInfo.errorInfo << std::endl;
-//      }
+      if(!mark_price_writer->insert(errorInfo, datetime, server_time, local_update_time, symbol, mark_price, index_price, settlement_price)){
+          std::cout << "mark_price_insert fail " << errorInfo.errorInfo << std::endl;
+      }
       ConstantSP current_funding_rate = new Double(_funding_rate);
       ConstantSP next_funding_rate = new Double(0);
       ConstantSP next_funding_rate_time = new Double(_next_funding_rate_time);
-//      if(!funding_rate_writer.insert(errorInfo, datetime, server_time, local_update_time, symbol, current_funding_rate, next_funding_rate, next_funding_rate_time)){
-//          std::cout << "funding_rate insert fail " << errorInfo.errorInfo << std::endl;
-//      }
-//      update_num();
-      std::cout <<"mark_price " <<  symbol_id << " "<<_server_time << " " << server_timestamp << " " << local_update_time_ << std::endl;
-
+      if(!funding_rate_writer->insert(errorInfo, datetime, server_time, local_update_time, symbol, current_funding_rate, next_funding_rate, next_funding_rate_time)){
+          std::cout << "funding_rate insert fail " << errorInfo.errorInfo << std::endl;
+      }
+      update_num();
+      //std::cout <<"mark_price " <<  symbol_id << " "<<_server_time << " " << server_timestamp << " " << local_update_time_ << std::endl;
     }
   }
   void deal_with_binance_instruments(Message & msg){
@@ -259,11 +252,13 @@ using ::ccapi::SessionOptions;
 using ::ccapi::Subscription;
 using ::ccapi::toString;
 int main(int argc, char** argv) {
+    const std::string user_id = "admin";
+    const std::string password = "123456";
   DBConnection conn;
-  bool ret = conn.connect("localhost", 8848, "admin", "123456");
+  bool ret = conn.connect("localhost", 8848, user_id, password);
   if (!ret) {
     std::cout << "Failed to connect to the server" << std::endl;
-    // return 0;
+    return 0;
   }else{
       ConstantSP result= conn.run("1+1");
       std::cout << result->getString() << std::endl;
@@ -283,8 +278,8 @@ int main(int argc, char** argv) {
   if (mode == "dispatch_events_to_multiple_threads") {
     SessionOptions sessionOptions;
     SessionConfigs sessionConfigs;
-    MyEventHandler eventHandler{};
-    EventDispatcher eventDispatcher(2);
+    MyEventHandler eventHandler{user_id, password};
+    EventDispatcher eventDispatcher(5);
     Session session(sessionOptions, sessionConfigs, &eventHandler, &eventDispatcher);
     // 订阅全部标记价格
     Subscription s0("binance-usds-futures", "", "MARK_PRICE", "", "mark_price");

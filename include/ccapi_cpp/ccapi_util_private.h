@@ -440,6 +440,20 @@ class UtilString CCAPI_FINAL {
 };
 class UtilTime CCAPI_FINAL {
  public:
+    // 获取当前时间点
+    static TimePoint getCurrentTimePoint() {
+        return TimePoint(std::chrono::system_clock::now());
+    }
+
+    // 将 TimePoint 转换为时间戳（纳秒）
+    static long long timePointToTimestamp(const TimePoint& tp) {
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(tp.time_since_epoch()).count();
+    }
+
+    // 从时间戳转换为 TimePoint
+    static TimePoint timestampToTimePoint(uint64_t timestamp) {
+        return TimePoint(std::chrono::nanoseconds(timestamp));
+    }
   /**
    * convert FIXTime to ISO time
    * @param fixTime
