@@ -94,7 +94,7 @@ class MyEventHandler : public EventHandler {
         std::cout << "order_book_insert fail " << errorInfo.errorInfo << std::endl;
     }
     update_num();
-    std::cout <<"depth_data " <<  symbol_id << " " << msg.getTime() << " " << local_timestamp << std::endl;
+    //std::cout <<"depth_data " <<  symbol_id << " " << msg.getTime() << " " << local_timestamp << std::endl;
   }
 
   void save_binance_agg_trade_data(Message & msg){
@@ -127,7 +127,7 @@ class MyEventHandler : public EventHandler {
       update_num();
     }
     // std::cout << toString(msg) << std::endl;
-    std::cout <<"agg_trade " <<  symbol_id << " " << " " << msg.getTime() << " " << local_timestamp << std::endl;
+    //std::cout <<"agg_trade " <<  symbol_id << " " << " " << msg.getTime() << " " << local_timestamp << std::endl;
   };
 
   void save_binance_force_order_data(Message & msg){
@@ -166,7 +166,7 @@ class MyEventHandler : public EventHandler {
           std::cout << "force_order_insert fail " << errorInfo.errorInfo << std::endl;
       }
       update_num();
-      std::cout <<"force_order " <<  symbol_id << " " << msg.getTime() << " " << local_timestamp << std::endl;
+      //std::cout <<"force_order " <<  symbol_id << " " << msg.getTime() << " " << local_timestamp << std::endl;
     }
   }
 
@@ -286,31 +286,31 @@ int main(int argc, char** argv) {
     // 订阅全部强平订单
     Subscription s1("binance-usds-futures", "", "FORCE_ORDER", "", "force_order");
     // 生成标记价格和强平订单的订阅
-    // std::vector<Subscription> subscription_list = {s0, s1};
-    std::vector<Subscription> subscription_list = {s0};
-//    // 请求全部合约数据
-//    Request request(Request::Operation::GET_INSTRUMENTS, "binance-usds-futures", "BTC-USD");
-//    session.sendRequest(request);
-//    while (eventHandler.instrument_names.size()==0){
-//      std::this_thread::sleep_for(std::chrono::seconds(1));
-//      std::cout << "wait for the instruments_names" << std::endl;
-//    }
-//    // 生成其他的订阅
-//    int count = 0;
-//    for (auto name : eventHandler.instrument_names){
-//      Subscription s2("binance-usds-futures", name, "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
-//      Subscription s3("binance-usds-futures", name, "AGG_TRADE", "", "agg_trade");
-//      subscription_list.push_back(s2);
-//      subscription_list.push_back(s3);
-//      count++;
-//      if (count > 20){
-//        std::this_thread::sleep_for(std::chrono::seconds(1));
-//        session.subscribe(subscription_list);
-//        subscription_list.clear();
-//        count = 0;
-//        break;
-//        }
-//    }
+    std::vector<Subscription> subscription_list = {s0, s1};
+    // std::vector<Subscription> subscription_list = {s0};
+    // 请求全部合约数据
+    Request request(Request::Operation::GET_INSTRUMENTS, "binance-usds-futures", "BTC-USD");
+    session.sendRequest(request);
+    while (eventHandler.instrument_names.size()==0){
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::cout << "wait for the instruments_names" << std::endl;
+    }
+    // 生成其他的订阅
+    int count = 0;
+    for (auto name : eventHandler.instrument_names){
+      Subscription s2("binance-usds-futures", name, "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
+      Subscription s3("binance-usds-futures", name, "AGG_TRADE", "", "agg_trade");
+      subscription_list.push_back(s2);
+      subscription_list.push_back(s3);
+      count++;
+      if (count > 20){
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        session.subscribe(subscription_list);
+        subscription_list.clear();
+        count = 0;
+        break;
+        }
+    }
     // Subscription s3("binance-usds-futures", "btcusdt", "AGG_TRADE", "", "agg_trade");
     // Subscription s4("binance-usds-futures", "btcusdt", "MARKET_DEPTH", "MARKET_DEPTH_MAX=20", "depth");
     // std::vector<Subscription> subscription_list = {s4};
