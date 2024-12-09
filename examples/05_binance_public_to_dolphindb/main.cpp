@@ -94,7 +94,7 @@ class MyEventHandler : public EventHandler {
         std::cout << "order_book_insert fail " << errorInfo.errorInfo << std::endl;
     }
     update_num();
-    //std::cout <<"depth_data " <<  symbol_id << " " << server_time_ << " " << local_update_time_ << std::endl;
+    std::cout <<"depth_data " <<  symbol_id << " " << msg.getTime() << " " << local_timestamp << std::endl;
   }
 
   void save_binance_agg_trade_data(Message & msg){
@@ -127,7 +127,7 @@ class MyEventHandler : public EventHandler {
       update_num();
     }
     // std::cout << toString(msg) << std::endl;
-    // std::cout <<"agg_trade " <<  symbol_id << " " << server_time_ << " " << local_update_time_ << std::endl;
+    std::cout <<"agg_trade " <<  symbol_id << " " << " " << msg.getTime() << " " << local_timestamp << std::endl;
   };
 
   void save_binance_force_order_data(Message & msg){
@@ -150,7 +150,7 @@ class MyEventHandler : public EventHandler {
       double _order_cumsum_trade_qty = std::stod(element.getValue("order_cumsum_trade_qty"));
       ConstantSP datetime = new Long(server_timestamp/1000000);
       ConstantSP server_time = new Long(server_timestamp/1000000);
-      ConstantSP local_update_time = new Double(local_timestamp/10000000.0);
+      ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
       ConstantSP symbol = new String(symbol_id);
       ConstantSP order_side = new String(_order_side);
       ConstantSP order_type = new String(_order_type);
@@ -166,7 +166,7 @@ class MyEventHandler : public EventHandler {
           std::cout << "force_order_insert fail " << errorInfo.errorInfo << std::endl;
       }
       update_num();
-      // std::cout <<"force_order " <<  symbol_id << " " << server_timestamp << " " << local_update_time_ << std::endl;
+      std::cout <<"force_order " <<  symbol_id << " " << msg.getTime() << " " << local_timestamp << std::endl;
     }
   }
 
