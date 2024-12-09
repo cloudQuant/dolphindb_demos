@@ -175,7 +175,7 @@ class MyEventHandler : public EventHandler {
     long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
     for (auto element : elements){
-        std::string _server_time = element.getValue("server_time");
+        //std::string _server_time = element.getValue("server_time");
       std::string symbol_id = element.getValue("symbol_id");
       double _funding_rate = std::stod(element.getValue("funding_rate"));
       double _mark_price = std::stod(element.getValue("mark_price"));
@@ -183,8 +183,8 @@ class MyEventHandler : public EventHandler {
       double _predicted_settlement_price = std::stod(element.getValue("predicted_settlement_price"));
       double _spot_index_price = std::stod(element.getValue("spot_index_price"));
       ConstantSP datetime = new Long(server_timestamp/1000000);
-      ConstantSP server_time = new Long(std::stol(_server_time));
-      ConstantSP local_update_time = new Double(local_timestamp/1000000);
+      ConstantSP server_time = new Long(server_timestamp/1000000);
+      ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
       ConstantSP symbol = new String(symbol_id);
       ConstantSP mark_price = new Double(_mark_price);
       ConstantSP index_price = new Double(_spot_index_price);
