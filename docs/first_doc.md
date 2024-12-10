@@ -23,5 +23,5 @@
    
 3. 运行获取数据保存到本地：
 ```bash
-nohup ~/dolphindb_demos/examples/build/05_binance_public_to_dolphindb/binance_public_to_dolphindb dispatch_events_to_multiple_threads > ~/logs/binance_public_to_dolphindb.log 2>&1 &
+nohup ~/dolphindb_demos/examples/build/05_binance_public_to_dolphindb/binance_public_to_dolphindb dispatch_events_to_multiple_threads >> ~/logs/binance_public_to_dolphindb.log 2>&1 &
 ```

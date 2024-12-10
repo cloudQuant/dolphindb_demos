@@ -25,6 +25,7 @@ Logger* Logger::logger = nullptr;  // This line is needed.
 class MyEventHandler : public EventHandler {
  public:
   std::vector<std::string> instrument_names;
+  std::vector<
   //构造MTW对象
   ErrorCodeInfo errorInfo;
   long long count;
@@ -40,11 +41,11 @@ class MyEventHandler : public EventHandler {
   MyEventHandler(const std::string &user_id, const std::string &password) {
     try {
         // 初始化成员变量
-        mark_price_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "mark_price", false, false, nullptr, 1000);
-        funding_rate_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "funding_rate", false, false, nullptr, 1000);
-        orderbook_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "orderbook", false, false, nullptr, 1000);
-        force_order_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "force_order", false, false, nullptr, 1000);
-        agg_trade_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "agg_trade", false, false, nullptr, 1000);
+        mark_price_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "mark_price", false, false, nullptr, 10000, 30, 5);
+        funding_rate_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "funding_rate", false, false, nullptr, 10000, 30, 5);
+        orderbook_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "orderbook", false, false, nullptr, 10000, 30, 5);
+        force_order_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "force_order", false, false, nullptr, 10000, 30, 5);
+        agg_trade_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "agg_trade", false, false, nullptr, 10000, 30, 5);
     } catch (const std::exception& e) {
         // Handle the exception, log it, or rethrow it if necessary
         std::cerr << "Error initializing writers: " << e.what() << std::endl;
