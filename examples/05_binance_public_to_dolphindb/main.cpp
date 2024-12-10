@@ -25,7 +25,6 @@ Logger* Logger::logger = nullptr;  // This line is needed.
 class MyEventHandler : public EventHandler {
  public:
   std::vector<std::string> instrument_names;
-  std::vector<
   //构造MTW对象
   ErrorCodeInfo errorInfo;
   long long count;
