@@ -84,7 +84,7 @@ class MyEventHandler : public EventHandler {
         ask_volume_list.push_back(std::stod(element.getValue("ASK_SIZE")));
       }
     }
-    ConstantSP datetime = new Long(server_timestamp/1000000);
+    ConstantSP datetime = new Long(server_timestamp);
     ConstantSP server_time = new Long(server_timestamp/1000000);
     ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
     ConstantSP symbol = new String(symbol_id);
@@ -109,7 +109,7 @@ class MyEventHandler : public EventHandler {
       std::string _trade_type = element.getValue("IS_BUYER_MAKER");
       double _trade_price = std::stod(element.getValue("LAST_PRICE"));
       double _trade_qty = std::stod(element.getValue("LAST_SIZE"));
-      ConstantSP datetime = new Long(server_timestamp/1000000);
+      ConstantSP datetime = new Long(server_timestamp);
       ConstantSP server_time = new Long(server_timestamp/1000000);
       ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
       ConstantSP symbol = new String(symbol_id);
@@ -148,7 +148,7 @@ class MyEventHandler : public EventHandler {
       double _order_avg_price = std::stod(element.getValue("order_avg_price"));
       double _last_trade_qty = std::stod(element.getValue("order_last_trade_qty"));
       double _order_cumsum_trade_qty = std::stod(element.getValue("order_cumsum_trade_qty"));
-      ConstantSP datetime = new Long(server_timestamp/1000000);
+      ConstantSP datetime = new Long(server_timestamp);
       ConstantSP server_time = new Long(server_timestamp/1000000);
       ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
       ConstantSP symbol = new String(symbol_id);
@@ -182,7 +182,7 @@ class MyEventHandler : public EventHandler {
       double _next_funding_rate_time = std::stod(element.getValue("next_funding_rate_time"));
       double _predicted_settlement_price = std::stod(element.getValue("predicted_settlement_price"));
       double _spot_index_price = std::stod(element.getValue("spot_index_price"));
-      ConstantSP datetime = new Long(server_timestamp/1000000);
+      ConstantSP datetime = new Long(server_timestamp);
       ConstantSP server_time = new Long(server_timestamp/1000000);
       ConstantSP local_update_time = new Double(local_timestamp/1000000.0);
       ConstantSP symbol = new String(symbol_id);
