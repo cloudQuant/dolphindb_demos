@@ -66,7 +66,7 @@ class MyEventHandler : public EventHandler {
   }
 
   void save_binance_depth_data(Message & msg){
-    std::string symbol_id = msg.getSymbolId();
+    std::string symbol_id = UtilString::toUpper(msg.getSymbolId());
     long long server_timestamp = UtilTime::timePointToTimestamp(msg.getTime());
     long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
@@ -98,7 +98,7 @@ class MyEventHandler : public EventHandler {
   }
 
   void save_binance_agg_trade_data(Message & msg){
-    std::string symbol_id = msg.getSymbolId();
+    std::string symbol_id = UtilString::toUpper(msg.getSymbolId());
     long long server_timestamp = UtilTime::timePointToTimestamp(msg.getTime());
     long long local_timestamp = UtilTime::timePointToTimestamp(msg.getTimeReceived());
     std::vector<Element> elements = msg.getElementList();
@@ -138,7 +138,7 @@ class MyEventHandler : public EventHandler {
     std::vector<Element> elements = msg.getElementList();
     // std::cout << toString(msg) << std::endl;
     for (auto element : elements){
-      std::string symbol_id = element.getValue("symbol_id");
+      std::string symbol_id = UtilString::toUpper(element.getValue("symbol_id"));
       std::string _order_side = element.getValue("order_side");
       std::string _order_type = element.getValue("order_type");
       std::string _order_time_in_force = element.getValue("order_force");
@@ -176,7 +176,7 @@ class MyEventHandler : public EventHandler {
     std::vector<Element> elements = msg.getElementList();
     for (auto element : elements){
         //std::string _server_time = element.getValue("server_time");
-      std::string symbol_id = element.getValue("symbol_id");
+      std::string symbol_id = UtilString::toUpper(element.getValue("symbol_id"));
       double _funding_rate = std::stod(element.getValue("funding_rate"));
       double _mark_price = std::stod(element.getValue("mark_price"));
       double _next_funding_rate_time = std::stod(element.getValue("next_funding_rate_time"));
