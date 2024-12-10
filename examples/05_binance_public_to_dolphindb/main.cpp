@@ -40,11 +40,11 @@ class MyEventHandler : public EventHandler {
   MyEventHandler(const std::string &user_id, const std::string &password) {
     try {
         // 初始化成员变量
-        mark_price_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "mark_price", false, false, nullptr, 10000, 30, 5);
-        funding_rate_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "funding_rate", false, false, nullptr, 10000, 30, 5);
-        orderbook_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "orderbook", false, false, nullptr, 10000, 30, 5);
-        force_order_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "force_order", false, false, nullptr, 10000, 30, 5);
-        agg_trade_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "agg_trade", false, false, nullptr, 10000, 30, 5);
+        mark_price_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "mark_price", false, false, nullptr, 10000, 30, 1);
+        funding_rate_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "funding_rate", false, false, nullptr, 10000, 30, 1);
+        orderbook_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "orderbook", false, false, nullptr, 10000, 30, 1);
+        force_order_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "force_order", false, false, nullptr, 10000, 30, 1);
+        agg_trade_writer = std::make_unique<MultithreadedTableWriter>("127.0.0.1", 8848, user_id, password, "dfs://binance_data", "agg_trade", false, false, nullptr, 10000, 30, 1);
     } catch (const std::exception& e) {
         // Handle the exception, log it, or rethrow it if necessary
         std::cerr << "Error initializing writers: " << e.what() << std::endl;
